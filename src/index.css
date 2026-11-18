@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@layer base {
+  * {
+    font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Quicksand', system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* Animations */
+@keyframes bellRing {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-14deg); }
+  45% { transform: rotate(10deg); }
+  60% { transform: rotate(-8deg); }
+  75% { transform: rotate(4deg); }
+  90% { transform: rotate(-2deg); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-10px) translateX(8px); }
+}
+
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(10px) translateX(-8px); }
+}
+
+@keyframes paperPlaneSway {
+  0%, 100% { transform: translateY(0px) rotate(-12deg); }
+  50% { transform: translateY(-12px) translateX(12px) rotate(-8deg); }
+}
+
+@keyframes paperPlaneSwayRev {
+  0%, 100% { transform: translateY(0px) rotate(25deg); }
+  50% { transform: translateY(-8px) translateX(-10px) rotate(20deg); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255, 200, 61, 0.6)); }
+  50% { transform: scale(1.04); filter: drop-shadow(0 0 25px rgba(255, 120, 31, 0.85)); }
+}
+
+@keyframes urgentPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes flowerBloom {
+  0%, 100% { transform: scale(0.96) rotate(-2deg); }
+  50% { transform: scale(1.04) rotate(3deg); }
+}
+
+@keyframes flowerSway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+.animate-bloom {
+  animation: flowerBloom 4.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+.animate-sway {
+  animation: flowerSway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+  will-change: transform;
+}
+
+.animate-bell-ring {
+  animation: bellRing 1.4s ease-in-out infinite;
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-paper-plane {
+  animation: paperPlaneSway 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-paper-plane-reverse {
+  animation: paperPlaneSwayRev 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-urgent {
+  animation: urgentPulse 0.6s ease-in-out infinite;
+}
+
+/* Sticker 3D Effect for Text & Badges */
+.sticker-text-title {
+  color: #084DB8;
+  text-shadow: 
+    -3px -3px 0 #FFFFFF,
+     3px -3px 0 #FFFFFF,
+    -3px  3px 0 #FFFFFF,
+     3px  3px 0 #FFFFFF,
+     0px  4px 0 #FFFFFF,
+     4px  0px 0 #FFFFFF,
+    -4px  0px 0 #FFFFFF,
+     0px -4px 0 #FFFFFF,
+     0px  8px 16px rgba(8, 77, 184, 0.35);
+}
+
+.sticker-text-orange {
+  color: #FF781F;
+  text-shadow: 
+    -3px -3px 0 #FFFFFF,
+     3px -3px 0 #FFFFFF,
+    -3px  3px 0 #FFFFFF,
+     3px  3px 0 #FFFFFF,
+     0px  4px 0 #FFFFFF,
+     4px  0px 0 #FFFFFF,
+    -4px  0px 0 #FFFFFF,
+     0px -4px 0 #FFFFFF,
+     0px  6px 14px rgba(230, 93, 7, 0.3);
+}
+
+.sticker-card {
+  background: #FFFFFF;
+  border: 4px solid #FFFFFF;
+  box-shadow: 0 10px 25px -5px rgba(8, 77, 184, 0.18), 0 8px 10px -6px rgba(8, 77, 184, 0.1);
+  border-radius: 1.5rem;
+}
+
+.sticker-card-gold {
+  background: #FFFFFF;
+  border: 4px solid #FFC83D;
+  box-shadow: 0 10px 25px -5px rgba(255, 120, 31, 0.25);
+  border-radius: 1.5rem;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #E1F8FF;
+}
+::-webkit-scrollbar-thumb {
+  background: #69D5F5;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #084DB8;
+}
