@@ -148,7 +148,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         phase: 'QUESTION',
         timerState: 'IDLE',
         timeRemaining: nextQ.timeLimit,
-        totalTimeForCurrent: nextQ.timeLimit
+        totalTimeForCurrent: nextQ.timeLimit,
+        eliminatedOptions: []
       });
     } else {
       // Finished all 15 questions
@@ -156,8 +157,23 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       syncService.post({ type: 'PLAY_SOUND', sound: 'VICTORY' });
       onUpdateState({
         phase: 'FINISH',
-        timerState: 'IDLE'
+        timerState: 'IDLE',
+        eliminatedOptions: []
       });
+    }
+  };
+
+  const handleToggle5050 = () => {
+    if (state.eliminatedOptions && state.eliminatedOptions.length > 0) {
+      onUpdateState({ eliminatedOptions: [] });
+    } else {
+      const curQ = questions[state.currentQuestionIndex];
+      if (!curQ || curQ.type === 'written') return;
+      const allOpts: OptionKey[] = ['A', 'B', 'C', 'D'];
+      const wrongOpts = allOpts.filter(o => o !== curQ.correctOption);
+      const shuffled = [...wrongOpts].sort(() => Math.random() - 0.5);
+      const toEliminate = shuffled.slice(0, 2);
+      onUpdateState({ eliminatedOptions: toEliminate });
     }
   };
 
@@ -191,7 +207,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       phase: 'QUESTION',
       timerState: 'IDLE',
       timeRemaining: targetQ.timeLimit,
-      totalTimeForCurrent: targetQ.timeLimit
+      totalTimeForCurrent: targetQ.timeLimit,
+      eliminatedOptions: []
     });
   };
 
@@ -208,7 +225,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           currentQuestionIndex: 0,
           timerState: 'IDLE',
           timeRemaining: firstQ.timeLimit,
-          totalTimeForCurrent: firstQ.timeLimit
+          totalTimeForCurrent: firstQ.timeLimit,
+          eliminatedOptions: []
         });
       }
     });
@@ -429,6 +447,26 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <span className="text-slate-400 font-medium">Cỡ chữ sân khấu:</span>
           <div className="flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
             <button
+              onClick={() => onUpdateSettings({ ledScale: 0.5 })}
+              className={`px-2 py-1 rounded-lg font-bold transition ${
+                (settings.ledScale || 1.0) === 0.5
+                  ? 'bg-amber-400 text-slate-950 shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              50% Nhỏ
+            </button>
+            <button
+              onClick={() => onUpdateSettings({ ledScale: 0.75 })}
+              className={`px-2 py-1 rounded-lg font-bold transition ${
+                settings.ledScale === 0.75
+                  ? 'bg-amber-400 text-slate-950 shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              75%
+            </button>
+            <button
               onClick={() => onUpdateSettings({ ledScale: 1.0 })}
               className={`px-2.5 py-1 rounded-lg font-bold transition ${
                 (settings.ledScale || 1.0) === 1.0
@@ -464,7 +502,7 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
             <button
               onClick={() => {
                 const cur = settings.ledScale || 1.0;
-                onUpdateSettings({ ledScale: Math.max(0.7, Math.round((cur - 0.05) * 100) / 100) });
+                onUpdateSettings({ ledScale: Math.max(0.5, Math.round((cur - 0.05) * 100) / 100) });
               }}
               title="Giảm 5% (Phím -)"
               className="w-6 h-6 flex items-center justify-center bg-slate-700 hover:bg-slate-600 rounded text-slate-200 font-bold"
@@ -656,6 +694,26 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   >
                     <Eye className="w-5 h-5" />
                     <span>CÔNG BỐ ĐÁP ÁN (Phím R)</span>
+                  </button>
+                )}
+
+                {/* 3.5. 50/50 Lifeline Button (Only for multiple-choice questions) */}
+                {currentQ.type !== 'written' && state.timerState !== 'REVEALED' && (
+                  <button
+                    onClick={handleToggle5050}
+                    title="Quyền trợ giúp 50/50: Loại bỏ 2 phương án sai trên màn hình"
+                    className={`flex-1 min-w-[190px] flex items-center justify-center gap-2 px-5 py-4 rounded-2xl font-black text-base shadow-md transition hover:scale-105 active:scale-95 ${
+                      state.eliminatedOptions && state.eliminatedOptions.length > 0
+                        ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-purple-900/40 ring-2 ring-purple-300'
+                        : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-indigo-900/40'
+                    }`}
+                  >
+                    <Sparkles className="w-5 h-5 text-amber-300" />
+                    <span>
+                      {state.eliminatedOptions && state.eliminatedOptions.length > 0
+                        ? 'HỦY 50/50 (HIỆN ĐỦ)'
+                        : 'TRỢ GIÚP 50/50 (HẠ 2 ĐÁP ÁN)'}
+                    </span>
                   </button>
                 )}
 

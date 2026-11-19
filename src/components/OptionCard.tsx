@@ -7,6 +7,7 @@ interface OptionCardProps {
   text: string;
   isRevealed: boolean;
   isCorrect: boolean;
+  isEliminated?: boolean;
 }
 
 const OPTION_BADGE_COLORS: Record<OptionKey, { bg: string; text: string; border: string }> = {
@@ -20,7 +21,8 @@ export const OptionCard: React.FC<OptionCardProps> = React.memo(({
   optionKey,
   text,
   isRevealed,
-  isCorrect
+  isCorrect,
+  isEliminated = false
 }) => {
   const badgeStyle = OPTION_BADGE_COLORS[optionKey];
 
@@ -32,6 +34,22 @@ export const OptionCard: React.FC<OptionCardProps> = React.memo(({
       : textLength > 35
       ? 'text-2xl lg:text-[1.95rem]'
       : 'text-3xl lg:text-[2.35rem]';
+
+  // 50/50 Lifeline Elimination State: Dimmed, crossed out
+  if (isEliminated && !isRevealed) {
+    return (
+      <div className="relative flex items-center gap-5 p-5 lg:p-6 rounded-3xl bg-white/40 border-2 border-dashed border-slate-300 opacity-20 select-none transition-all duration-300 pointer-events-none">
+        <div className="w-16 h-16 lg:w-18 lg:h-18 shrink-0 rounded-2xl flex items-center justify-center font-black text-3xl bg-slate-300 text-slate-500 border-2 border-slate-400">
+          <span className="line-through">{optionKey}</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className={`line-through text-slate-400 font-extrabold ${optionFontSize}`}>
+            {text}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

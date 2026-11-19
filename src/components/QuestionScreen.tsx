@@ -1,16 +1,16 @@
 import React from 'react';
-import { Question, TimerState, GameSettings } from '../types/quiz';
+import { Question, TimerState, GameSettings, OptionKey } from '../types/quiz';
 import { TimerDisplay } from './TimerDisplay';
 import { OptionCard } from './OptionCard';
-import { ProgressBar } from './ProgressBar';
 import { ProgramLogo } from './ProgramLogo';
-import { Info, Volume2, VolumeX, Maximize2, Settings, ArrowLeft, Edit3, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Settings, ArrowLeft, Edit3, Sparkles } from 'lucide-react';
 
 interface QuestionScreenProps {
   question: Question;
   currentIndex: number; // 0 to 14
   timerState: TimerState;
   timeRemaining: number;
+  eliminatedOptions?: OptionKey[];
   settings: GameSettings;
   onHomeClick?: () => void;
   onOpenControl?: () => void;
@@ -24,6 +24,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
   currentIndex,
   timerState,
   timeRemaining,
+  eliminatedOptions = [],
   settings,
   onHomeClick,
   onOpenControl,
@@ -190,55 +191,31 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
               text={question.options.A}
               isRevealed={isRevealed}
               isCorrect={question.correctOption === 'A'}
+              isEliminated={eliminatedOptions.includes('A')}
             />
             <OptionCard
               optionKey="B"
               text={question.options.B}
               isRevealed={isRevealed}
               isCorrect={question.correctOption === 'B'}
+              isEliminated={eliminatedOptions.includes('B')}
             />
             <OptionCard
               optionKey="C"
               text={question.options.C}
               isRevealed={isRevealed}
               isCorrect={question.correctOption === 'C'}
+              isEliminated={eliminatedOptions.includes('C')}
             />
             <OptionCard
               optionKey="D"
               text={question.options.D}
               isRevealed={isRevealed}
               isCorrect={question.correctOption === 'D'}
+              isEliminated={eliminatedOptions.includes('D')}
             />
           </div>
         )}
-
-        {/* 4. Explanation Box (Only shown after REVEALED) */}
-        {isRevealed && question.explanation && (
-          <div className="mt-4 p-5 rounded-3xl bg-amber-50/98 border-4 border-amber-300 shadow-xl animate-in fade-in slide-in-from-bottom-3 duration-400 w-full">
-            <div className="flex items-start gap-4">
-              <div className="p-2.5 bg-amber-200 text-amber-900 rounded-2xl shrink-0 mt-0.5">
-                <Info className="w-7 h-7 text-amber-800" />
-              </div>
-              <div className="flex-1">
-                <div className="text-xs font-black uppercase tracking-wider text-amber-800 mb-0.5">
-                  GIẢI THÍCH CHI TIẾT
-                </div>
-                <p className="text-slate-800 font-extrabold text-xl leading-relaxed">
-                  {question.explanation}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* 5. Bottom Progress Bar (15 Milestones) */}
-      <div className="w-full pt-3 border-t-2 border-white/70">
-        <ProgressBar
-          currentIndex={currentIndex}
-          total={15}
-          isInteractive={false}
-        />
       </div>
     </div>
   );

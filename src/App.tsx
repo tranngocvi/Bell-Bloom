@@ -288,7 +288,8 @@ export const App: React.FC = () => {
       currentQuestionIndex: index,
       timerState: 'IDLE',
       timeRemaining: curQ.timeLimit,
-      totalTimeForCurrent: curQ.timeLimit
+      totalTimeForCurrent: curQ.timeLimit,
+      eliminatedOptions: []
     });
   };
 
@@ -299,7 +300,8 @@ export const App: React.FC = () => {
       currentQuestionIndex: 0,
       timerState: 'IDLE',
       timeRemaining: firstQ.timeLimit,
-      totalTimeForCurrent: firstQ.timeLimit
+      totalTimeForCurrent: firstQ.timeLimit,
+      eliminatedOptions: []
     });
   };
 
@@ -404,6 +406,7 @@ export const App: React.FC = () => {
             currentIndex={gameState.currentQuestionIndex}
             timerState={gameState.timerState}
             timeRemaining={gameState.timeRemaining}
+            eliminatedOptions={gameState.eliminatedOptions}
             settings={settings}
             onHomeClick={handleGoHome}
             onOpenControl={() => setIsControlOpen(true)}

@@ -46,6 +46,7 @@ export interface GameState {
   timerState: TimerState;
   timeRemaining: number;
   totalTimeForCurrent: number;
+  eliminatedOptions?: OptionKey[]; // For 50/50 lifeline: 2 incorrect options eliminated
   lastUpdated: number; // timestamp for syncing
 }
 
