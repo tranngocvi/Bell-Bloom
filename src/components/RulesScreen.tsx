@@ -164,7 +164,7 @@ export const RulesScreen: React.FC<RulesScreenProps> = React.memo(({
           </div>
         ) : (
           <div className="px-6 py-2 bg-white/90 rounded-full border border-white text-xs md:text-sm font-bold text-[#084DB8] shadow-sm">
-            FPT POLYSCHOOL - BELL & BLOOM 20/11 • CHUÔNG VANG TRI THỨC - HOA NỞ TRI ÂN
+            FPT POLYSCHOOL - BELL & BLOOM 20/11
           </div>
         )}
       </div>

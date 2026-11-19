@@ -3,9 +3,9 @@ import { DEFAULT_QUESTIONS } from '../data/defaultQuestions';
 import { DEFAULT_SETTINGS } from '../data/defaultRules';
 
 const STORAGE_KEYS = {
-  QUESTIONS: 'bb_questions_v1',
-  SETTINGS: 'bb_settings_v1',
-  GAME_STATE: 'bb_gamestate_v1'
+  QUESTIONS: 'bb_questions_v2',
+  SETTINGS: 'bb_settings_v2',
+  GAME_STATE: 'bb_gamestate_v2'
 };
 
 export const StorageService = {
@@ -129,18 +129,22 @@ export const StorageService = {
         errors.push(`Câu số ${qNum} (ID ${id || qNum}): Nội dung câu hỏi không được để trống.`);
       }
 
-      if (!q.options || typeof q.options !== 'object') {
-        errors.push(`Câu số ${qNum}: Thiếu 4 phương án A, B, C, D.`);
-      } else {
-        const { A, B, C, D } = q.options as Record<string, unknown>;
-        if (!A || typeof A !== 'string' || !A.trim()) errors.push(`Câu ${qNum}: Phương án A bị trống.`);
-        if (!B || typeof B !== 'string' || !B.trim()) errors.push(`Câu ${qNum}: Phương án B bị trống.`);
-        if (!C || typeof C !== 'string' || !C.trim()) errors.push(`Câu ${qNum}: Phương án C bị trống.`);
-        if (!D || typeof D !== 'string' || !D.trim()) errors.push(`Câu ${qNum}: Phương án D bị trống.`);
+      const isWritten = q.type === 'written';
+
+      if (!isWritten) {
+        if (!q.options || typeof q.options !== 'object') {
+          errors.push(`Câu số ${qNum}: Thiếu 4 phương án A, B, C, D.`);
+        } else {
+          const { A, B, C, D } = q.options as Record<string, unknown>;
+          if (!A || typeof A !== 'string' || !A.trim()) errors.push(`Câu ${qNum}: Phương án A bị trống.`);
+          if (!B || typeof B !== 'string' || !B.trim()) errors.push(`Câu ${qNum}: Phương án B bị trống.`);
+          if (!C || typeof C !== 'string' || !C.trim()) errors.push(`Câu ${qNum}: Phương án C bị trống.`);
+          if (!D || typeof D !== 'string' || !D.trim()) errors.push(`Câu ${qNum}: Phương án D bị trống.`);
+        }
       }
 
-      const correct = String(q.correctOption || '').toUpperCase();
-      if (!['A', 'B', 'C', 'D'].includes(correct)) {
+      const correct = String(q.correctOption || 'A').toUpperCase();
+      if (!isWritten && !['A', 'B', 'C', 'D'].includes(correct)) {
         errors.push(`Câu số ${qNum}: Đáp án đúng phải là A, B, C hoặc D (hiện tại: ${q.correctOption}).`);
       }
 
@@ -154,15 +158,18 @@ export const StorageService = {
       validatedQuestions.push({
         id: id || qNum,
         question: String(q.question || '').trim(),
+        type: isWritten ? 'written' : 'multiple_choice',
+        imageUrl: q.imageUrl ? String(q.imageUrl).trim() : null,
         options: {
           A: String(q.options?.A || '').trim(),
           B: String(q.options?.B || '').trim(),
           C: String(q.options?.C || '').trim(),
           D: String(q.options?.D || '').trim(),
         },
-        correctOption: correct as 'A' | 'B' | 'C' | 'D',
+        correctOption: (['A', 'B', 'C', 'D'].includes(correct) ? correct : 'A') as 'A' | 'B' | 'C' | 'D',
+        correctAnswerText: q.correctAnswerText ? String(q.correctAnswerText).trim() : undefined,
         explanation: String(q.explanation || '').trim(),
-        timeLimit: Math.round(time || 20),
+        timeLimit: Math.round(time || 15),
         difficulty
       });
     });

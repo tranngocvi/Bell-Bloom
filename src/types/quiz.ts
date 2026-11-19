@@ -2,9 +2,13 @@ export type OptionKey = 'A' | 'B' | 'C' | 'D';
 
 export type DifficultyLevel = 'Dễ' | 'Trung bình' | 'Khó';
 
+export type QuestionType = 'multiple_choice' | 'written';
+
 export interface Question {
   id: number;
   question: string;
+  type?: QuestionType;
+  imageUrl?: string | null;
   options: {
     A: string;
     B: string;
@@ -12,6 +16,7 @@ export interface Question {
     D: string;
   };
   correctOption: OptionKey;
+  correctAnswerText?: string;
   explanation: string;
   timeLimit: number; // in seconds (5 - 300)
   difficulty: DifficultyLevel;

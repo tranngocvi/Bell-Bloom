@@ -33,8 +33,13 @@ export const QuestionEditorModal: React.FC<QuestionEditorModalProps> = ({
       setError('Vui lòng nhập nội dung câu hỏi.');
       return;
     }
-    if (!formData.options.A.trim() || !formData.options.B.trim() || !formData.options.C.trim() || !formData.options.D.trim()) {
+    const isWritten = formData.type === 'written';
+    if (!isWritten && (!formData.options.A.trim() || !formData.options.B.trim() || !formData.options.C.trim() || !formData.options.D.trim())) {
       setError('Cần điền đầy đủ cả 4 phương án A, B, C, D.');
+      return;
+    }
+    if (isWritten && !formData.correctAnswerText?.trim()) {
+      setError('Vui lòng nhập đáp án chính xác cho câu tự luận.');
       return;
     }
     if (formData.timeLimit < 5 || formData.timeLimit > 300) {

@@ -515,31 +515,46 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   {currentQ.question}
                 </h3>
 
-                {/* 4 Options preview */}
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {(['A', 'B', 'C', 'D'] as OptionKey[]).map((k) => (
-                    <div
-                      key={k}
-                      className={`p-2 rounded-xl flex items-center gap-2 border ${
-                        currentQ.correctOption === k
-                          ? 'bg-emerald-950/60 border-emerald-500/80 text-emerald-300 font-bold'
-                          : 'bg-slate-900/60 border-slate-800 text-slate-300'
-                      }`}
-                    >
-                      <span className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs shrink-0">
-                        {k}
-                      </span>
-                      <span className="truncate">{currentQ.options[k]}</span>
-                      {currentQ.correctOption === k && (
-                        <Check className="w-3.5 h-3.5 text-emerald-400 ml-auto shrink-0" />
-                      )}
+                {/* Options preview (Multiple Choice or Written Answer) */}
+                {currentQ.type === 'written' ? (
+                  <div className="p-4 rounded-xl bg-amber-950/40 border border-amber-500/50 flex flex-col items-start gap-1.5 my-2">
+                    <div className="flex items-center gap-2 text-xs font-bold text-amber-400 uppercase tracking-wider">
+                      <span>✍️ CÂU HỎI VIẾT ĐÁP ÁN (TỰ LUẬN)</span>
                     </div>
-                  ))}
-                </div>
+                    <div className="text-base font-black text-white">
+                      Đáp án chính xác: <span className="text-amber-300 font-extrabold">{currentQ.correctAnswerText || 'Thầy Nguyễn Văn Tấn'}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-2 text-sm">
+                    {(['A', 'B', 'C', 'D'] as OptionKey[]).map((k) => (
+                      <div
+                        key={k}
+                        className={`p-2 rounded-xl flex items-center gap-2 border ${
+                          currentQ.correctOption === k
+                            ? 'bg-emerald-950/60 border-emerald-500/80 text-emerald-300 font-bold'
+                            : 'bg-slate-900/60 border-slate-800 text-slate-300'
+                        }`}
+                      >
+                        <span className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center font-bold text-xs shrink-0">
+                          {k}
+                        </span>
+                        <span className="truncate">{currentQ.options[k]}</span>
+                        {currentQ.correctOption === k && (
+                          <Check className="w-3.5 h-3.5 text-emerald-400 ml-auto shrink-0" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 {/* Correct answer & explanation peek */}
                 <div className="mt-3 pt-3 border-t border-slate-700/60 flex items-start gap-2 text-xs text-amber-300/90">
-                  <span className="font-bold text-amber-400">Đáp án đúng: [{currentQ.correctOption}]</span>
+                  <span className="font-bold text-amber-400">
+                    {currentQ.type === 'written'
+                      ? `Đáp án viết: [ ${currentQ.correctAnswerText || 'Thầy Nguyễn Văn Tấn'} ]`
+                      : `Đáp án đúng: [${currentQ.correctOption}] ${currentQ.options[currentQ.correctOption]}`}
+                  </span>
                   <span className="text-slate-400">•</span>
                   <span className="text-slate-300 italic">{currentQ.explanation}</span>
                 </div>

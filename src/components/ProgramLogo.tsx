@@ -31,7 +31,7 @@ export const ProgramLogo: React.FC<ProgramLogoProps> = React.memo(({
         <source srcSet={webpSrc} type="image/webp" />
         <img
           src={pngSrc}
-          alt="BELL & BLOOM - Chuông vang tri thức, Hoa nở tri ân"
+          alt="BELL & BLOOM"
           decoding="async"
           loading="eager"
           className={`${sizeClass} object-contain drop-shadow-2xl hover:scale-[1.02] transition-transform duration-300 will-change-transform`}
