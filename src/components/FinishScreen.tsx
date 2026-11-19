@@ -59,7 +59,7 @@ export const FinishScreen: React.FC<FinishScreenProps> = React.memo(({
   }, [settings.animationsEnabled]);
 
   return (
-    <div className="flex-1 flex flex-col items-center justify-between p-4 md:p-8 w-full max-w-[96vw] mx-auto text-center relative z-20 min-h-screen">
+    <div className="flex-1 w-full h-full flex flex-col items-center justify-between p-4 md:p-6 lg:p-8 overflow-hidden text-center relative z-20">
       {/* Top Header */}
       <div className="pt-2">
         <div className="bg-white/95 px-4 py-2 rounded-2xl shadow-md border-2 border-white backdrop-blur-xs inline-flex items-center gap-3">

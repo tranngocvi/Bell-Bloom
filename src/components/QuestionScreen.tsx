@@ -40,17 +40,17 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
   const isRevealed = timerState === 'REVEALED';
   const diffBadge = DIFFICULTY_BADGES[question.difficulty] || DIFFICULTY_BADGES['Trung bình'];
 
-  // Dynamic font sizing for long question text - Scaled for Giant LED Wall
+  // Dynamic font sizing for long question text - Auto-scaled for Giant LED Wall
   const questionLength = question.question.length;
-  let questionFontSize = 'text-3xl md:text-5xl lg:text-6xl xl:text-[4rem] 2xl:text-[4.5rem]';
+  let questionFontSize = 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[3.8rem] 2xl:text-[4.2rem]';
   if (questionLength > 120) {
-    questionFontSize = 'text-2xl md:text-3xl lg:text-4xl xl:text-[3rem] 2xl:text-[3.5rem]';
-  } else if (questionLength > 75) {
-    questionFontSize = 'text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] 2xl:text-[3.9rem]';
+    questionFontSize = 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[2.75rem] 2xl:text-[3.1rem]';
+  } else if (questionLength > 70) {
+    questionFontSize = 'text-2xl sm:text-3xl md:text-5xl lg:text-5xl xl:text-[3.25rem] 2xl:text-[3.65rem]';
   }
 
   return (
-    <div className="flex-1 flex flex-col justify-between p-3 md:p-6 lg:p-8 xl:p-10 w-full max-w-[98vw] mx-auto min-h-screen relative z-20">
+    <div className="flex-1 w-full h-full flex flex-col justify-between p-3 md:p-5 lg:p-6 xl:p-8 overflow-hidden relative z-20">
       {/* 1. Header Bar */}
       <div className="w-full flex items-center justify-between gap-4 pb-3 border-b-2 border-white/70">
         {/* Left: Program Branding, School Logo & Question Pill */}
@@ -131,10 +131,10 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
       {/* 2. Central Full-Width Question Box (FULL WIDTH 100% - Scaled for Giant LED Screen) */}
       <div className="my-auto py-2 w-full animate-in fade-in zoom-in-98 duration-300">
         {/* Question Card - Massive size, bold high-contrast text */}
-        <div className="bg-white border-4 md:border-6 border-white/95 rounded-3xl md:rounded-4xl p-6 md:p-10 lg:p-12 xl:p-14 shadow-2xl shadow-sky-300/50 mb-6 lg:mb-8 transition-all duration-300 w-full">
+        <div className={`bg-white border-4 md:border-6 border-white/95 rounded-3xl md:rounded-4xl ${isRevealed ? 'p-5 md:p-8 lg:p-10 mb-4 lg:mb-6' : 'p-6 md:p-10 lg:p-12 xl:p-14 mb-6 lg:mb-8'} shadow-2xl shadow-sky-300/50 transition-all duration-300 w-full`}>
           {/* Centered & Aligned Icon with Question Text */}
-          <div className="flex items-center gap-6 md:gap-8 lg:gap-10">
-            <div className="w-16 h-16 md:w-22 md:h-22 lg:w-26 lg:h-26 xl:w-28 xl:h-28 rounded-3xl bg-gradient-to-br from-[#FF8E3D] to-[#FF781F] text-white flex items-center justify-center font-black text-3xl md:text-5xl lg:text-6xl xl:text-7xl shrink-0 shadow-xl border-3 md:border-4 border-white">
+          <div className="flex items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-2xl md:rounded-3xl bg-gradient-to-br from-[#FF8E3D] to-[#FF781F] text-white flex items-center justify-center font-black text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl shrink-0 shadow-xl border-3 md:border-4 border-white">
               ?
             </div>
             <div className="flex-1 min-w-0">
@@ -148,7 +148,7 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
         </div>
 
         {/* 3. Four Full-Width Answer Options (2x2 Grid) */}
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 lg:gap-8">
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 lg:gap-8">
           <OptionCard
             optionKey="A"
             text={question.options.A}
@@ -177,16 +177,16 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
 
         {/* 4. Explanation Box (Only shown after REVEALED) */}
         {isRevealed && question.explanation && (
-          <div className="mt-6 md:mt-8 p-6 md:p-8 lg:p-10 rounded-3xl md:rounded-4xl bg-amber-50/98 border-4 border-amber-300 shadow-2xl animate-in fade-in slide-in-from-bottom-3 duration-400 w-full">
-            <div className="flex items-start gap-5 md:gap-6">
-              <div className="p-3 md:p-4 bg-amber-200 text-amber-900 rounded-2xl md:rounded-3xl shrink-0 mt-0.5">
-                <Info className="w-8 h-8 md:w-10 md:h-10 text-amber-800" />
+          <div className="mt-4 md:mt-6 p-5 md:p-7 lg:p-8 rounded-3xl md:rounded-4xl bg-amber-50/98 border-4 border-amber-300 shadow-2xl animate-in fade-in slide-in-from-bottom-3 duration-400 w-full">
+            <div className="flex items-start gap-4 md:gap-6">
+              <div className="p-2.5 md:p-3.5 bg-amber-200 text-amber-900 rounded-2xl md:rounded-3xl shrink-0 mt-0.5">
+                <Info className="w-7 h-7 md:w-9 md:h-9 text-amber-800" />
               </div>
               <div className="flex-1">
-                <div className="text-sm md:text-base lg:text-lg font-black uppercase tracking-wider text-amber-800 mb-1.5">
+                <div className="text-xs md:text-sm lg:text-base font-black uppercase tracking-wider text-amber-800 mb-1">
                   GIẢI THÍCH CHI TIẾT
                 </div>
-                <p className="text-slate-800 font-extrabold text-xl md:text-2xl lg:text-3xl xl:text-4xl leading-relaxed">
+                <p className="text-slate-800 font-extrabold text-lg md:text-xl lg:text-2xl xl:text-3xl leading-relaxed">
                   {question.explanation}
                 </p>
               </div>

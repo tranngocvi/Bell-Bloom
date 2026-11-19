@@ -23,7 +23,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = React.memo(({
   isProjectorMode = false
 }) => {
   return (
-    <div className="flex-1 flex flex-col justify-between p-4 md:p-8 lg:p-10 w-full max-w-[96vw] mx-auto min-h-screen relative z-20">
+    <div className="flex-1 w-full h-full flex flex-col justify-between p-4 md:p-6 lg:p-8 overflow-hidden relative z-20">
       {/* Top Header Bar - Full Width with School Logo & Program Logo */}
       <div className="w-full flex items-center justify-between pb-3 border-b-2 border-white/60">
         {/* School Logo & Program Logo side-by-side in a polished badge */}

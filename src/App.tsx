@@ -57,6 +57,22 @@ export const App: React.FC = () => {
   };
 
   // -------------------------------------------------------------
+  // DYNAMIC 16:9 STAGE SCALING & PROJECTOR CLASS
+  // -------------------------------------------------------------
+  useEffect(() => {
+    if (isProjectorMode) {
+      document.documentElement.classList.add('projector-mode');
+    } else {
+      document.documentElement.classList.remove('projector-mode');
+    }
+  }, [isProjectorMode]);
+
+  useEffect(() => {
+    const scale = settings.ledScale || (isProjectorMode ? 1.15 : 1.0);
+    document.documentElement.style.setProperty('--led-scale-factor', String(scale));
+  }, [settings.ledScale, isProjectorMode]);
+
+  // -------------------------------------------------------------
   // BROADCAST CHANNEL SYNCHRONIZATION
   // -------------------------------------------------------------
   // Projector listens to updates from MC
@@ -161,6 +177,32 @@ export const App: React.FC = () => {
       return updated;
     });
   }, []);
+
+  // Keyboard shortcuts for instant LED Zoom (+ / - / 0)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName;
+      if (activeTag === 'INPUT' || activeTag === 'TEXTAREA') return;
+
+      if (e.key === '+' || e.key === '=') {
+        e.preventDefault();
+        const currentScale = settings.ledScale || 1.15;
+        const nextScale = Math.min(1.8, Math.round((currentScale + 0.05) * 100) / 100);
+        updateSettings({ ledScale: nextScale });
+      } else if (e.key === '-' || e.key === '_') {
+        e.preventDefault();
+        const currentScale = settings.ledScale || 1.15;
+        const nextScale = Math.max(0.75, Math.round((currentScale - 0.05) * 100) / 100);
+        updateSettings({ ledScale: nextScale });
+      } else if (e.key === '0') {
+        e.preventDefault();
+        updateSettings({ ledScale: 1.15 });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [settings.ledScale, updateSettings]);
 
   // -------------------------------------------------------------
   // TIMER TICK ENGINE (Only runs on MC / non-projector view)
@@ -271,13 +313,48 @@ export const App: React.FC = () => {
   const curQuestion = questions[gameState.currentQuestionIndex] || questions[0];
 
   return (
-    <div className="min-h-screen w-full relative select-none">
+    <div className="w-screen h-screen overflow-hidden relative select-none">
       <DecorativeBackground animated={settings.animationsEnabled}>
-        {/* Projector indicator banner */}
+        {/* Projector indicator & Quick Zoom Tool on Stage Screen */}
         {isProjectorMode && (
-          <div className="absolute top-2 left-2 z-50 px-2.5 py-0.5 bg-black/40 backdrop-blur-xs text-white/80 rounded-md text-[10px] font-mono pointer-events-none flex items-center gap-1">
-            <Tv className="w-3 h-3 text-emerald-400" />
-            <span>MÀN HÌNH TRÌNH CHIẾU</span>
+          <div className="absolute top-2 left-2 z-50 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl text-white shadow-xl border border-white/20 transition-opacity opacity-40 hover:opacity-100">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-400">
+              <Tv className="w-3.5 h-3.5" />
+              <span>MÀN LED (16:9)</span>
+            </div>
+            <div className="h-3 w-[1px] bg-white/30" />
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => {
+                  const currentScale = settings.ledScale || 1.15;
+                  updateSettings({ ledScale: Math.max(0.75, Math.round((currentScale - 0.05) * 100) / 100) });
+                }}
+                title="Thu nhỏ cỡ chữ (Phím -)"
+                className="w-5 h-5 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded text-xs font-bold"
+              >
+                -
+              </button>
+              <span className="text-[11px] font-mono px-1 font-bold">
+                {Math.round((settings.ledScale || 1.15) * 100)}%
+              </span>
+              <button
+                onClick={() => {
+                  const currentScale = settings.ledScale || 1.15;
+                  updateSettings({ ledScale: Math.min(1.8, Math.round((currentScale + 0.05) * 100) / 100) });
+                }}
+                title="Phóng to cỡ chữ (Phím +)"
+                className="w-5 h-5 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded text-xs font-bold"
+              >
+                +
+              </button>
+              <button
+                onClick={() => updateSettings({ ledScale: 1.15 })}
+                title="Tự động cân đối chuẩn 16:9 (Phím 0)"
+                className="ml-1 px-1.5 py-0.5 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded text-[10px] font-bold"
+              >
+                Auto 16:9
+              </button>
+            </div>
           </div>
         )}
 

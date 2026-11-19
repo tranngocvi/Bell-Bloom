@@ -59,7 +59,7 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
         {/* Circular SVG countdown stroke - Upscaled for big LED */}
         <div className="flex items-center gap-4 md:gap-6">
           <div className="relative flex items-center justify-center">
-            <svg className="w-16 h-16 md:w-22 md:h-22 lg:w-26 lg:h-26 transform -rotate-90">
+            <svg viewBox="0 0 64 64" className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 transform -rotate-90">
               <circle
                 cx="32"
                 cy="32"

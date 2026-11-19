@@ -33,7 +33,7 @@ export const RulesScreen: React.FC<RulesScreenProps> = React.memo(({
   ];
 
   return (
-    <div className="flex-1 flex flex-col justify-between p-3 md:p-6 lg:p-8 w-full max-w-[96vw] mx-auto min-h-screen relative z-20">
+    <div className="flex-1 w-full h-full flex flex-col justify-between p-3 md:p-4 lg:p-6 overflow-hidden relative z-20">
       {/* 1. Header Bar */}
       <div className="w-full flex items-center justify-between pb-3 border-b-2 border-white/60">
         {/* Left: Back Button & Logos */}
@@ -97,47 +97,47 @@ export const RulesScreen: React.FC<RulesScreenProps> = React.memo(({
       {/* 2. Main Stage Center Presentation (Scaled for Giant LED Wall) */}
       <div className="my-auto py-2 w-full flex flex-col items-center">
         {/* Stage Title Header */}
-        <div className="text-center mb-6 lg:mb-8">
-          <div className="inline-flex items-center gap-2 px-6 py-2 md:px-8 md:py-2.5 bg-white/95 rounded-full border-2 border-amber-300 shadow-md text-[#FF781F] font-black text-sm md:text-xl uppercase tracking-wider mb-3">
-            <BookOpen className="w-5 h-5 md:w-6 md:h-6 text-[#FF781F]" />
+        <div className="text-center mb-3 lg:mb-4">
+          <div className="inline-flex items-center gap-2 px-5 py-1.5 md:px-6 md:py-2 bg-white/95 rounded-full border-2 border-amber-300 shadow-md text-[#FF781F] font-black text-xs md:text-sm lg:text-base uppercase tracking-wider mb-1.5">
+            <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-[#FF781F]" />
             <span>QUY ĐỊNH THI ĐẤU CHÍNH THỨC</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-[#084DB8] leading-tight drop-shadow-sm tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-[#084DB8] leading-tight drop-shadow-sm tracking-tight">
             THỂ LỆ TRÒ CHƠI
           </h1>
-          <p className="text-slate-700 font-extrabold text-xl md:text-2xl lg:text-3xl mt-1.5">
+          <p className="text-slate-700 font-extrabold text-sm sm:text-base md:text-lg lg:text-xl mt-1">
             Đấu trường tri thức BELL & BLOOM - 15 Câu hỏi chinh phục
           </p>
         </div>
 
-        {/* 3. Full-Screen Rules Cards Grid (Large, High Contrast, Visible from afar) */}
-        <div className="w-full max-w-7xl xl:max-w-[94vw] flex flex-col gap-4 md:gap-5 lg:gap-6 mb-6">
+        {/* 3. Full-Screen Rules Cards Grid (Large, High Contrast, Guaranteed to fit 16:9) */}
+        <div className="w-full max-w-6xl xl:max-w-[92%] flex flex-col gap-2.5 md:gap-3 lg:gap-3.5 mb-2">
           {rules.map((rule, idx) => (
             <div
               key={idx}
-              className="w-full flex items-center gap-5 md:gap-8 p-5 md:p-7 lg:p-8 xl:p-9 rounded-3xl md:rounded-4xl bg-white border-4 md:border-5 border-white/95 shadow-xl shadow-sky-200/50 hover:shadow-2xl hover:scale-[1.01] transition-all duration-300"
+              className="w-full flex items-center gap-3 md:gap-5 lg:gap-6 p-3 md:p-4 lg:p-4.5 xl:p-5 rounded-2xl md:rounded-3xl bg-white border-3 md:border-4 border-white/95 shadow-md shadow-sky-200/50 hover:shadow-xl hover:scale-[1.01] transition-all duration-300"
             >
               {/* Rule Number Badge */}
-              <div className="w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 rounded-2xl md:rounded-3xl bg-gradient-to-br from-[#084DB8] to-[#2575FC] text-white flex items-center justify-center font-black text-2xl md:text-4xl lg:text-5xl shrink-0 shadow-lg border-3 md:border-4 border-white">
+              <div className="w-10 h-10 md:w-13 md:h-13 lg:w-16 lg:h-16 rounded-xl md:rounded-2xl bg-gradient-to-br from-[#084DB8] to-[#2575FC] text-white flex items-center justify-center font-black text-lg md:text-2xl lg:text-3xl shrink-0 shadow-md border-2 md:border-3 border-white">
                 {idx + 1}
               </div>
 
               {/* Emoji Icon Sticker */}
-              <div className="text-3xl md:text-5xl lg:text-6xl shrink-0 hidden sm:block">
+              <div className="text-2xl md:text-3xl lg:text-4xl shrink-0 hidden sm:block">
                 {RULE_ICONS[idx % RULE_ICONS.length]}
               </div>
 
               {/* Rule Text - Extra Large for Audience in Auditoriums */}
               <div className="flex-1 min-w-0">
-                <p className="text-slate-800 font-black text-2xl md:text-3xl lg:text-4xl xl:text-[2.65rem] leading-snug">
+                <p className="text-slate-800 font-black text-base md:text-xl lg:text-2xl xl:text-[2.1rem] leading-snug">
                   {rule}
                 </p>
               </div>
 
               {/* Verified check indicator */}
               <div className="shrink-0 text-emerald-500 hidden md:block">
-                <CheckCircle2 className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" />
+                <CheckCircle2 className="w-6 h-6 md:w-8 md:h-8" />
               </div>
             </div>
           ))}

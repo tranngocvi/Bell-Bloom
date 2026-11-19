@@ -32,6 +32,7 @@ export interface GameSettings {
   eventTitle: string;
   eventSlogan: string;
   isDemo: boolean;
+  ledScale?: number; // e.g. 1.0 (100%), 1.15 (115%), 1.3 (130%), 1.5 (150%)
 }
 
 export interface GameState {

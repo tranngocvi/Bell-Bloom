@@ -277,11 +277,19 @@ export const DecorativeBackground: React.FC<{ children?: React.ReactNode; animat
   animated = true
 }) => {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#69D5F5] via-[#8EE4F8] to-[#D5F5FF] flex flex-col justify-between">
+    <div className="fixed inset-0 w-screen h-screen overflow-hidden bg-gradient-to-b from-[#69D5F5] via-[#8EE4F8] to-[#D5F5FF] flex items-center justify-center select-none">
+      {/* Outer ambient sky decorations extending across any aspect ratio */}
       <StaticSkyDecorations animated={animated} />
 
-      {/* Main content layer */}
-      <div className="relative z-20 flex-1 flex flex-col w-full h-full">
+      {/* STRICT 16:9 FIXED STAGE VIEWPORT (Fixed 16:9, centered, never skewed or distorted) */}
+      <div
+        className="stage-viewport-16-9 relative z-20 w-full h-full flex flex-col justify-between overflow-hidden shadow-2xl"
+        style={{
+          width: 'min(100vw, calc(100vh * (16 / 9)))',
+          height: 'min(100vh, calc(100vw * (9 / 16)))',
+          aspectRatio: '16 / 9'
+        }}
+      >
         {children}
       </div>
     </div>

@@ -412,6 +412,92 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         </button>
       </div>
 
+      {/* 2.5 Quick LED Display & Scale Toolbar (Chuẩn cố định 16:9 cho màn hình sự kiện) */}
+      <div className="bg-slate-900 border-b border-slate-800 px-5 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2 text-slate-300 font-bold">
+          <Tv className="w-4 h-4 text-emerald-400" />
+          <span>Khung hình Màn LED:</span>
+          <span className="px-2 py-0.5 bg-emerald-950 text-emerald-300 border border-emerald-700/60 rounded-md font-mono font-bold">
+            CỐ ĐỊNH 16:9
+          </span>
+          <span className="text-[11px] text-slate-400 hidden sm:inline">
+            (Không bị lệch, méo hay vỡ khung)
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-slate-400 font-medium">Cỡ chữ sân khấu:</span>
+          <div className="flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
+            <button
+              onClick={() => onUpdateSettings({ ledScale: 1.15 })}
+              className={`px-2.5 py-1 rounded-lg font-bold transition ${
+                (settings.ledScale || 1.15) === 1.15
+                  ? 'bg-amber-400 text-slate-950 shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              Tự động (115%)
+            </button>
+            <button
+              onClick={() => onUpdateSettings({ ledScale: 1.0 })}
+              className={`px-2 py-1 rounded-lg font-bold transition ${
+                settings.ledScale === 1.0
+                  ? 'bg-[#FF781F] text-white shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              100%
+            </button>
+            <button
+              onClick={() => onUpdateSettings({ ledScale: 1.3 })}
+              className={`px-2 py-1 rounded-lg font-bold transition ${
+                settings.ledScale === 1.3
+                  ? 'bg-[#FF781F] text-white shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              130% To
+            </button>
+            <button
+              onClick={() => onUpdateSettings({ ledScale: 1.5 })}
+              className={`px-2 py-1 rounded-lg font-bold transition ${
+                settings.ledScale === 1.5
+                  ? 'bg-[#FF781F] text-white shadow'
+                  : 'text-slate-300 hover:text-white'
+              }`}
+            >
+              150% Rất to
+            </button>
+
+            <div className="h-4 w-[1px] bg-slate-700 mx-1" />
+
+            <button
+              onClick={() => {
+                const cur = settings.ledScale || 1.15;
+                onUpdateSettings({ ledScale: Math.max(0.75, Math.round((cur - 0.05) * 100) / 100) });
+              }}
+              title="Giảm 5% (Phím -)"
+              className="w-6 h-6 flex items-center justify-center bg-slate-700 hover:bg-slate-600 rounded text-slate-200 font-bold"
+            >
+              -
+            </button>
+            <span className="font-mono font-bold text-white px-1">
+              {Math.round((settings.ledScale || 1.15) * 100)}%
+            </span>
+            <button
+              onClick={() => {
+                const cur = settings.ledScale || 1.15;
+                onUpdateSettings({ ledScale: Math.min(1.8, Math.round((cur + 0.05) * 100) / 100) });
+              }}
+              title="Tăng 5% (Phím +)"
+              className="w-6 h-6 flex items-center justify-center bg-slate-700 hover:bg-slate-600 rounded text-slate-200 font-bold"
+            >
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* 3. Tab Body */}
       <div className="flex-1 overflow-y-auto p-5 space-y-6">
         {/* TAB 1: ĐIỀU KHIỂN CHƯƠNG TRÌNH */}

@@ -16,5 +16,6 @@ export const DEFAULT_SETTINGS = {
   schoolName: "FPT POLYSCHOOL",
   eventTitle: "BELL & BLOOM",
   eventSlogan: "Chuông vang tri thức - Hoa nở tri ân",
-  isDemo: true
+  isDemo: true,
+  ledScale: 1.15
 };
