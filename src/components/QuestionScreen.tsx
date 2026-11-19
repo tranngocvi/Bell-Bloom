@@ -134,13 +134,13 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
                 {question.question}
               </h2>
             </div>
-            {/* Question Illustration Image (Questions 6 & 7) */}
-            {question.imageUrl && (
-              <div className="shrink-0 flex items-center justify-center p-2 bg-slate-50 border-3 border-amber-300 rounded-2xl shadow-md overflow-hidden max-h-[160px]">
+            {/* Question Illustration Image (Questions 6 & 7) - Dynamically switches to answer image upon reveal */}
+            {(isRevealed && question.revealImageUrl ? question.revealImageUrl : question.imageUrl) && (
+              <div className="shrink-0 flex items-center justify-center p-2 bg-slate-50 border-3 border-amber-300 rounded-2xl shadow-md overflow-hidden max-h-[175px]">
                 <img
-                  src={question.imageUrl}
-                  alt="Hình ảnh câu hỏi"
-                  className="max-h-[140px] w-auto object-contain rounded-xl"
+                  src={(isRevealed && question.revealImageUrl) ? question.revealImageUrl : question.imageUrl!}
+                  alt={isRevealed ? 'Đáp án hình ảnh' : 'Hình ảnh câu hỏi'}
+                  className="max-h-[155px] w-auto object-contain rounded-xl transition-all duration-300"
                 />
               </div>
             )}

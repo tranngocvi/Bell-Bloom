@@ -107,7 +107,8 @@ export const DEFAULT_QUESTIONS: Question[] = [
     "id": 7,
     "question": "Câu hỏi hình ảnh: Đây là thầy/cô nào?",
     "type": "multiple_choice",
-    "imageUrl": "/cau7-hinh-anh.png",
+    "imageUrl": "/cau7-cau-hoi.png",
+    "revealImageUrl": "/cau7-dap-an.png",
     "options": {
       "A": "Thầy Nguyễn Văn Vũ",
       "B": "Thầy Trần Ngọc Vĩ",

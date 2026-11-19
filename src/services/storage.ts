@@ -3,9 +3,9 @@ import { DEFAULT_QUESTIONS } from '../data/defaultQuestions';
 import { DEFAULT_SETTINGS } from '../data/defaultRules';
 
 const STORAGE_KEYS = {
-  QUESTIONS: 'bb_questions_v2',
-  SETTINGS: 'bb_settings_v2',
-  GAME_STATE: 'bb_gamestate_v2'
+  QUESTIONS: 'bb_questions_v3',
+  SETTINGS: 'bb_settings_v3',
+  GAME_STATE: 'bb_gamestate_v3'
 };
 
 export const StorageService = {
@@ -160,6 +160,7 @@ export const StorageService = {
         question: String(q.question || '').trim(),
         type: isWritten ? 'written' : 'multiple_choice',
         imageUrl: q.imageUrl ? String(q.imageUrl).trim() : null,
+        revealImageUrl: q.revealImageUrl ? String(q.revealImageUrl).trim() : null,
         options: {
           A: String(q.options?.A || '').trim(),
           B: String(q.options?.B || '').trim(),

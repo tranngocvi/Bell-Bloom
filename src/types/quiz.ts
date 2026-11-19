@@ -9,6 +9,7 @@ export interface Question {
   question: string;
   type?: QuestionType;
   imageUrl?: string | null;
+  revealImageUrl?: string | null;
   options: {
     A: string;
     B: string;
