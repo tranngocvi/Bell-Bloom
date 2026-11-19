@@ -62,16 +62,16 @@ export const OpeningStageScreen: React.FC<OpeningStageScreenProps> = React.memo(
           )}
 
           {/* School Logo & Program Logo in a single polished badge */}
-          <div className="bg-white/95 px-3 py-1.5 rounded-2xl shadow-md border-2 border-white flex items-center gap-3">
+          <div className="bg-white/95 px-4 py-2 md:px-5 md:py-2.5 rounded-2xl md:rounded-3xl shadow-md border-2 border-white flex items-center gap-3 md:gap-4">
             {settings.customLogoUrl && (
               <img
                 src={settings.customLogoUrl}
                 alt="Logo trường"
-                className="h-8 md:h-11 w-auto max-w-[130px] md:max-w-[160px] object-contain"
+                className="h-10 md:h-14 lg:h-16 w-auto max-w-[150px] md:max-w-[220px] object-contain"
               />
             )}
-            <div className="h-7 w-[2px] bg-slate-200 hidden sm:block" />
-            <ProgramLogo size="sm" />
+            <div className="h-8 md:h-10 w-[2px] bg-slate-200 hidden sm:block" />
+            <ProgramLogo size="md" />
           </div>
         </div>
 
@@ -103,21 +103,21 @@ export const OpeningStageScreen: React.FC<OpeningStageScreenProps> = React.memo(
         </div>
       </div>
 
-      {/* Center Stage Presentation - Grand Program Key Visual */}
+      {/* Center Stage Presentation - Grand Program Key Visual (Maximized for Giant LED Wall) */}
       <div className="my-auto flex flex-col items-center justify-center py-4 animate-in zoom-in-95 duration-500 w-full">
         {/* Massive Official Program Title & Key Visual (HGP1) */}
-        <div className="w-full max-w-5xl lg:max-w-6xl flex justify-center py-2">
+        <div className="w-full max-w-6xl lg:max-w-7xl xl:max-w-[92vw] flex justify-center py-2">
           <ProgramLogo size="hero" className="w-full justify-center" />
         </div>
 
         {/* Action button to open Question 1 (Only on MC window) */}
         {!isProjectorMode && (
-          <div className="flex flex-col sm:flex-row items-center gap-4 z-20 mt-8">
+          <div className="flex flex-col sm:flex-row items-center gap-4 z-20 mt-10">
             <button
               onClick={() => onOpenQuestion(0)}
-              className="group flex items-center gap-4 px-12 py-6 bg-[#FF781F] hover:bg-[#E65D07] text-white font-black text-2xl md:text-3xl rounded-3xl shadow-2xl shadow-orange-500/50 border-4 border-white transform transition hover:scale-105 active:scale-95 animate-pulse"
+              className="group flex items-center gap-4 px-14 py-7 bg-[#FF781F] hover:bg-[#E65D07] text-white font-black text-2xl md:text-4xl rounded-3xl md:rounded-4xl shadow-2xl shadow-orange-500/50 border-4 md:border-6 border-white transform transition hover:scale-105 active:scale-95 animate-pulse"
             >
-              <Play className="w-9 h-9 fill-current group-hover:translate-x-1.5 transition-transform" />
+              <Play className="w-10 h-10 fill-current group-hover:translate-x-1.5 transition-transform" />
               <span>MỞ CÂU HỎI SỐ 1</span>
             </button>
           </div>

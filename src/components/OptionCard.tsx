@@ -26,29 +26,29 @@ export const OptionCard: React.FC<OptionCardProps> = React.memo(({
 
   return (
     <div
-      className={`relative flex items-center gap-4 p-4 md:p-6 rounded-3xl transition-all duration-300 select-none ${
+      className={`relative flex items-center gap-5 md:gap-7 p-5 md:p-7 lg:p-9 xl:p-10 rounded-3xl md:rounded-4xl transition-all duration-300 select-none ${
         isRevealed && isCorrect
-          ? 'bg-emerald-50 border-4 border-emerald-500 shadow-xl shadow-emerald-200 scale-[1.02] z-10'
+          ? 'bg-emerald-50 border-4 md:border-6 border-emerald-500 shadow-2xl shadow-emerald-300 scale-[1.02] z-10'
           : isRevealed && !isCorrect
-          ? 'bg-white/70 border-3 border-slate-200 opacity-45'
-          : 'bg-white border-4 border-white/90 shadow-md hover:shadow-lg'
+          ? 'bg-white/70 border-3 border-slate-200 opacity-40'
+          : 'bg-white border-4 md:border-6 border-white/95 shadow-xl hover:shadow-2xl'
       }`}
     >
-      {/* Option Key Badge (A, B, C, D) */}
+      {/* Option Key Badge (A, B, C, D) - Large for giant LED screen */}
       <div
-        className={`w-12 h-12 md:w-16 md:h-16 shrink-0 rounded-2xl flex items-center justify-center font-black text-2xl md:text-3xl border-3 shadow-md transition-transform ${badgeStyle.bg} ${badgeStyle.text} ${badgeStyle.border} ${
+        className={`w-14 h-14 md:w-20 md:h-20 lg:w-24 lg:h-24 shrink-0 rounded-2xl md:rounded-3xl flex items-center justify-center font-black text-2xl md:text-4xl lg:text-5xl border-3 md:border-4 shadow-lg transition-transform ${badgeStyle.bg} ${badgeStyle.text} ${badgeStyle.border} ${
           isRevealed && isCorrect ? 'scale-110 rotate-2' : ''
         }`}
       >
         {optionKey}
       </div>
 
-      {/* Option Text Content */}
+      {/* Option Text Content - Extra Large & High Contrast */}
       <div className="flex-1 min-w-0">
         <p
-          className={`font-semibold text-slate-800 leading-snug break-words transition-colors ${
-            isRevealed && isCorrect ? 'text-emerald-950 font-extrabold' : ''
-          } text-xl md:text-2xl lg:text-3xl`}
+          className={`leading-snug break-words transition-colors ${
+            isRevealed && isCorrect ? 'text-emerald-950 font-black' : 'text-slate-800 font-extrabold'
+          } text-2xl md:text-3xl lg:text-4xl xl:text-[2.65rem]`}
         >
           {text}
         </p>
@@ -56,8 +56,8 @@ export const OptionCard: React.FC<OptionCardProps> = React.memo(({
 
       {/* Correct Indicator Badge */}
       {isRevealed && isCorrect && (
-        <div className="absolute -top-3.5 right-6 px-3 py-1 bg-emerald-600 text-white rounded-full flex items-center gap-1.5 shadow-md text-sm md:text-base font-black tracking-wide animate-bounce">
-          <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
+        <div className="absolute -top-4 md:-top-5 right-6 md:right-10 px-4 py-1.5 md:px-6 md:py-2.5 bg-emerald-600 text-white rounded-full flex items-center gap-2 shadow-xl text-base md:text-xl lg:text-2xl font-black tracking-wide animate-bounce">
+          <CheckCircle2 className="w-5 h-5 md:w-7 md:h-7" />
           <span>ĐÁP ÁN ĐÚNG</span>
         </div>
       )}
