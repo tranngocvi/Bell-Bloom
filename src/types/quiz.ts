@@ -48,6 +48,7 @@ export interface GameState {
   timeRemaining: number;
   totalTimeForCurrent: number;
   eliminatedOptions?: OptionKey[]; // For 50/50 lifeline: 2 incorrect options eliminated
+  isImageZoomed?: boolean; // For clicking to view enlarged image
   lastUpdated: number; // timestamp for syncing
 }
 
@@ -55,6 +56,7 @@ export type SyncAction =
   | { type: 'STATE_UPDATE'; state: GameState }
   | { type: 'QUESTIONS_UPDATE'; questions: Question[] }
   | { type: 'SETTINGS_UPDATE'; settings: GameSettings }
+  | { type: 'ZOOM_IMAGE'; isZoomed: boolean }
   | { type: 'PING' }
   | { type: 'PONG'; state: GameState; questions: Question[]; settings: GameSettings }
   | { type: 'PROJECTOR_CONNECTED' }

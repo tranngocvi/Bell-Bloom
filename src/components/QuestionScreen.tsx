@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Question, TimerState, GameSettings, OptionKey } from '../types/quiz';
 import { TimerDisplay } from './TimerDisplay';
 import { OptionCard } from './OptionCard';
 import { ProgramLogo } from './ProgramLogo';
-import { Volume2, VolumeX, Maximize2, Settings, ArrowLeft, Edit3, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Maximize2, Settings, ArrowLeft, Edit3, Sparkles, X, ZoomIn } from 'lucide-react';
 
 interface QuestionScreenProps {
   question: Question;
@@ -11,6 +11,8 @@ interface QuestionScreenProps {
   timerState: TimerState;
   timeRemaining: number;
   eliminatedOptions?: OptionKey[];
+  isImageZoomed?: boolean;
+  onToggleImageZoom?: (zoomed: boolean) => void;
   settings: GameSettings;
   onHomeClick?: () => void;
   onOpenControl?: () => void;
@@ -25,6 +27,8 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
   timerState,
   timeRemaining,
   eliminatedOptions = [],
+  isImageZoomed,
+  onToggleImageZoom,
   settings,
   onHomeClick,
   onOpenControl,
@@ -33,6 +37,27 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
   isProjectorMode = false
 }) => {
   const isRevealed = timerState === 'REVEALED';
+  const [internalZoom, setInternalZoom] = useState(false);
+  const showZoom = isImageZoomed !== undefined ? isImageZoomed : internalZoom;
+
+  const handleToggleZoom = (val?: boolean) => {
+    const nextVal = val !== undefined ? val : !showZoom;
+    setInternalZoom(nextVal);
+    onToggleImageZoom?.(nextVal);
+  };
+
+  // Close zoom modal on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showZoom) {
+        handleToggleZoom(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [showZoom]);
+
+  const currentImg = (isRevealed && question.revealImageUrl) ? question.revealImageUrl : question.imageUrl;
 
   // Dynamic font sizing for long question text - Balanced for 1920x1080 stage
   const questionLength = question.question.length;
@@ -134,14 +159,24 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
                 {question.question}
               </h2>
             </div>
-            {/* Question Illustration Image (Questions 6 & 7) - Dynamically switches to answer image upon reveal */}
-            {(isRevealed && question.revealImageUrl ? question.revealImageUrl : question.imageUrl) && (
-              <div className="shrink-0 flex items-center justify-center p-2 bg-slate-50 border-3 border-amber-300 rounded-2xl shadow-md overflow-hidden max-h-[175px]">
+            {/* Question Illustration Image (Questions 6 & 7) - Click to zoom in */}
+            {currentImg && (
+              <div
+                onClick={() => handleToggleZoom(true)}
+                title="Nhấp để xem ảnh to và rõ hơn"
+                className="group shrink-0 relative flex items-center justify-center p-2 bg-slate-50 hover:bg-amber-50 border-3 border-amber-300 hover:border-[#FF781F] rounded-2xl shadow-md hover:shadow-xl overflow-hidden max-h-[175px] cursor-pointer transition-all duration-300 hover:scale-105"
+              >
                 <img
-                  src={(isRevealed && question.revealImageUrl) ? question.revealImageUrl : question.imageUrl!}
+                  src={currentImg}
                   alt={isRevealed ? 'Đáp án hình ảnh' : 'Hình ảnh câu hỏi'}
                   className="max-h-[155px] w-auto object-contain rounded-xl transition-all duration-300"
                 />
+                <div className="absolute inset-0 bg-slate-900/30 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
+                  <div className="px-3 py-1 bg-white/95 text-[#084DB8] font-black text-xs rounded-full shadow-lg flex items-center gap-1.5 border border-blue-200">
+                    <ZoomIn className="w-3.5 h-3.5 text-[#FF781F]" />
+                    <span>Xem to</span>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -217,6 +252,51 @@ export const QuestionScreen: React.FC<QuestionScreenProps> = React.memo(({
           </div>
         )}
       </div>
+
+      {/* Click-to-Zoom Image Lightbox Modal */}
+      {showZoom && currentImg && (
+        <div
+          onClick={() => handleToggleZoom(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-6 md:p-10 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200 cursor-zoom-out"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-5xl max-h-[88vh] bg-white rounded-3xl p-4 md:p-6 shadow-2xl border-4 border-amber-300 flex flex-col items-center animate-in zoom-in-95 duration-200 cursor-default"
+          >
+            {/* Header bar of modal */}
+            <div className="w-full flex items-center justify-between pb-3 mb-3 border-b-2 border-slate-100">
+              <div className="flex items-center gap-3">
+                <span className="px-3.5 py-1 bg-[#084DB8] text-white font-black text-sm rounded-xl">
+                  CÂU {String(currentIndex + 1).padStart(2, '0')}
+                </span>
+                <span className="font-bold text-slate-800 text-base md:text-lg">
+                  {isRevealed ? 'Hình ảnh đáp án chính xác' : 'Hình ảnh câu hỏi (Chế độ xem to)'}
+                </span>
+              </div>
+              <button
+                onClick={() => handleToggleZoom(false)}
+                title="Đóng (phím ESC)"
+                className="p-2 bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-600 rounded-xl transition"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Large Image View */}
+            <div className="flex-1 flex items-center justify-center overflow-hidden max-h-[70vh]">
+              <img
+                src={currentImg}
+                alt={question.question}
+                className="max-h-[68vh] max-w-full w-auto object-contain rounded-2xl shadow-lg border-2 border-slate-200"
+              />
+            </div>
+
+            <div className="mt-3 text-xs md:text-sm font-semibold text-slate-500">
+              Nhấp ra ngoài hoặc bấm nút [✕] / phím ESC để đóng
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 });

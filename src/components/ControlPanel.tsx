@@ -149,7 +149,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
         timerState: 'IDLE',
         timeRemaining: nextQ.timeLimit,
         totalTimeForCurrent: nextQ.timeLimit,
-        eliminatedOptions: []
+        eliminatedOptions: [],
+        isImageZoomed: false
       });
     } else {
       // Finished all 15 questions
@@ -158,7 +159,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       onUpdateState({
         phase: 'FINISH',
         timerState: 'IDLE',
-        eliminatedOptions: []
+        eliminatedOptions: [],
+        isImageZoomed: false
       });
     }
   };
@@ -208,7 +210,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
       timerState: 'IDLE',
       timeRemaining: targetQ.timeLimit,
       totalTimeForCurrent: targetQ.timeLimit,
-      eliminatedOptions: []
+      eliminatedOptions: [],
+      isImageZoomed: false
     });
   };
 
@@ -226,7 +229,8 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           timerState: 'IDLE',
           timeRemaining: firstQ.timeLimit,
           totalTimeForCurrent: firstQ.timeLimit,
-          eliminatedOptions: []
+          eliminatedOptions: [],
+          isImageZoomed: false
         });
       }
     });
@@ -549,9 +553,31 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   </span>
                 </div>
 
-                <h3 className="text-lg md:text-xl font-bold text-white mb-3">
-                  {currentQ.question}
-                </h3>
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <h3 className="text-lg md:text-xl font-bold text-white flex-1">
+                    {currentQ.question}
+                  </h3>
+                  {currentQ.imageUrl && (
+                    <button
+                      onClick={() => onUpdateState({ isImageZoomed: !state.isImageZoomed })}
+                      title={state.isImageZoomed ? 'Đóng phóng to trên màn hình LED' : 'Phóng to ảnh trên màn hình LED'}
+                      className={`shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-xl border transition text-xs font-bold ${
+                        state.isImageZoomed
+                          ? 'bg-amber-500/20 text-amber-300 border-amber-400 animate-pulse'
+                          : 'bg-slate-700/80 hover:bg-slate-700 text-slate-200 border-slate-600'
+                      }`}
+                    >
+                      <img
+                        src={(state.timerState === 'REVEALED' && currentQ.revealImageUrl) ? currentQ.revealImageUrl : currentQ.imageUrl}
+                        alt="Preview"
+                        className="w-8 h-8 object-cover rounded-lg border border-slate-500"
+                      />
+                      <span className="hidden sm:inline">
+                        {state.isImageZoomed ? 'Đang phóng to LED (Bấm để đóng)' : 'Phóng to ảnh LED'}
+                      </span>
+                    </button>
+                  )}
+                </div>
 
                 {/* Options preview (Multiple Choice or Written Answer) */}
                 {currentQ.type === 'written' ? (
