@@ -42,7 +42,7 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
   return (
     <div className="flex flex-col items-center">
       <div
-        className={`relative flex items-center justify-center transition-all duration-300 rounded-3xl md:rounded-4xl border-4 md:border-6 ${
+        className={`relative flex items-center justify-center transition-all duration-300 rounded-3xl border-4 ${
           isWarning
             ? 'bg-rose-50 border-rose-500 text-rose-600 shadow-2xl shadow-rose-400/60 scale-105 animate-urgent'
             : isTimeOut
@@ -52,14 +52,14 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
             : 'bg-white border-[#FFC83D] text-[#084DB8] shadow-2xl shadow-sky-300/60'
         } ${
           size === 'large'
-            ? 'px-8 py-3.5 md:px-12 md:py-5 min-w-[260px] md:min-w-[360px] lg:min-w-[420px]'
+            ? 'px-8 py-3 min-w-[340px]'
             : 'px-5 py-2 min-w-[150px]'
         }`}
       >
         {/* Circular SVG countdown stroke - Upscaled for big LED */}
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-5">
           <div className="relative flex items-center justify-center">
-            <svg viewBox="0 0 64 64" className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 transform -rotate-90">
+            <svg viewBox="0 0 64 64" className="w-18 h-18 transform -rotate-90">
               <circle
                 cx="32"
                 cy="32"
@@ -91,11 +91,11 @@ export const TimerDisplay: React.FC<TimerDisplayProps> = ({
           <div className="text-center">
             <div
               className={`font-mono font-black tracking-tight leading-none ${
-                size === 'large' ? 'text-6xl md:text-7xl lg:text-8xl xl:text-[5.5rem]' : 'text-4xl'
+                size === 'large' ? 'text-6xl lg:text-7xl' : 'text-4xl'
               }`}
             >
               {formattedTime}
-              <span className="text-2xl md:text-3xl lg:text-4xl font-bold ml-1 text-slate-400">s</span>
+              <span className="text-3xl font-bold ml-1 text-slate-400">s</span>
             </div>
             <div className="text-xs md:text-sm lg:text-base uppercase tracking-wider font-extrabold mt-1 text-slate-500">
               {timerState === 'COUNTING'

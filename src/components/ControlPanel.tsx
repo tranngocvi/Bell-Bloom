@@ -429,24 +429,24 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
           <span className="text-slate-400 font-medium">Cỡ chữ sân khấu:</span>
           <div className="flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
             <button
-              onClick={() => onUpdateSettings({ ledScale: 1.15 })}
+              onClick={() => onUpdateSettings({ ledScale: 1.0 })}
               className={`px-2.5 py-1 rounded-lg font-bold transition ${
-                (settings.ledScale || 1.15) === 1.15
+                (settings.ledScale || 1.0) === 1.0
                   ? 'bg-amber-400 text-slate-950 shadow'
                   : 'text-slate-300 hover:text-white'
               }`}
             >
-              Tự động (115%)
+              Tự động (100%)
             </button>
             <button
-              onClick={() => onUpdateSettings({ ledScale: 1.0 })}
+              onClick={() => onUpdateSettings({ ledScale: 1.15 })}
               className={`px-2 py-1 rounded-lg font-bold transition ${
-                settings.ledScale === 1.0
+                settings.ledScale === 1.15
                   ? 'bg-[#FF781F] text-white shadow'
                   : 'text-slate-300 hover:text-white'
               }`}
             >
-              100%
+              115% To
             </button>
             <button
               onClick={() => onUpdateSettings({ ledScale: 1.3 })}
@@ -456,25 +456,15 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
                   : 'text-slate-300 hover:text-white'
               }`}
             >
-              130% To
-            </button>
-            <button
-              onClick={() => onUpdateSettings({ ledScale: 1.5 })}
-              className={`px-2 py-1 rounded-lg font-bold transition ${
-                settings.ledScale === 1.5
-                  ? 'bg-[#FF781F] text-white shadow'
-                  : 'text-slate-300 hover:text-white'
-              }`}
-            >
-              150% Rất to
+              130% Rất to
             </button>
 
             <div className="h-4 w-[1px] bg-slate-700 mx-1" />
 
             <button
               onClick={() => {
-                const cur = settings.ledScale || 1.15;
-                onUpdateSettings({ ledScale: Math.max(0.75, Math.round((cur - 0.05) * 100) / 100) });
+                const cur = settings.ledScale || 1.0;
+                onUpdateSettings({ ledScale: Math.max(0.7, Math.round((cur - 0.05) * 100) / 100) });
               }}
               title="Giảm 5% (Phím -)"
               className="w-6 h-6 flex items-center justify-center bg-slate-700 hover:bg-slate-600 rounded text-slate-200 font-bold"
@@ -482,12 +472,12 @@ export const ControlPanel: React.FC<ControlPanelProps> = ({
               -
             </button>
             <span className="font-mono font-bold text-white px-1">
-              {Math.round((settings.ledScale || 1.15) * 100)}%
+              {Math.round((settings.ledScale || 1.0) * 100)}%
             </span>
             <button
               onClick={() => {
-                const cur = settings.ledScale || 1.15;
-                onUpdateSettings({ ledScale: Math.min(1.8, Math.round((cur + 0.05) * 100) / 100) });
+                const cur = settings.ledScale || 1.0;
+                onUpdateSettings({ ledScale: Math.min(1.5, Math.round((cur + 0.05) * 100) / 100) });
               }}
               title="Tăng 5% (Phím +)"
               className="w-6 h-6 flex items-center justify-center bg-slate-700 hover:bg-slate-600 rounded text-slate-200 font-bold"

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 export const PaperPlane: React.FC<{ className?: string; angle?: number }> = React.memo(({ className = '', angle = -15 }) => (
   <svg
@@ -272,23 +272,56 @@ export const StaticSkyDecorations: React.FC<{ animated?: boolean }> = React.memo
   );
 });
 
-export const DecorativeBackground: React.FC<{ children?: React.ReactNode; animated?: boolean }> = React.memo(({
+export const STAGE_WIDTH = 1920;
+export const STAGE_HEIGHT = 1080;
+
+export const DecorativeBackground: React.FC<{
+  children?: React.ReactNode;
+  animated?: boolean;
+  userScale?: number;
+}> = React.memo(({
   children,
-  animated = true
+  animated = true,
+  userScale = 1.0
 }) => {
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      // Auto-detect resolution and compute exact scale ratio to guarantee zero overflow
+      const scaleX = vw / STAGE_WIDTH;
+      const scaleY = vh / STAGE_HEIGHT;
+      const fitScale = Math.min(scaleX, scaleY);
+      setScale(fitScale * (userScale || 1.0));
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    window.addEventListener('orientationchange', updateScale);
+
+    return () => {
+      window.removeEventListener('resize', updateScale);
+      window.removeEventListener('orientationchange', updateScale);
+    };
+  }, [userScale]);
+
   return (
     <div className="fixed inset-0 w-screen h-screen overflow-hidden bg-gradient-to-b from-[#69D5F5] via-[#8EE4F8] to-[#D5F5FF] flex items-center justify-center select-none">
       {/* Outer ambient sky decorations extending across any aspect ratio */}
       <StaticSkyDecorations animated={animated} />
 
-      {/* STRICT 16:9 FIXED STAGE VIEWPORT (Fixed 16:9, centered, never skewed or distorted) */}
+      {/* STRICT 16:9 FIXED VIRTUAL STAGE CANVAS (1920x1080) Auto-detects screen, scales proportionally, zero overflow */}
       <div
-        className="stage-viewport-16-9 relative z-20 w-full h-full flex flex-col justify-between overflow-hidden shadow-2xl"
         style={{
-          width: 'min(100vw, calc(100vh * (16 / 9)))',
-          height: 'min(100vh, calc(100vw * (9 / 16)))',
-          aspectRatio: '16 / 9'
+          width: `${STAGE_WIDTH}px`,
+          height: `${STAGE_HEIGHT}px`,
+          transform: `scale(${scale})`,
+          transformOrigin: 'center center',
+          flexShrink: 0
         }}
+        className="relative z-20 flex flex-col justify-between overflow-hidden shadow-2xl transition-transform duration-100 ease-out"
       >
         {children}
       </div>

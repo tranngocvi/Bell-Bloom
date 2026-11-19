@@ -186,17 +186,17 @@ export const App: React.FC = () => {
 
       if (e.key === '+' || e.key === '=') {
         e.preventDefault();
-        const currentScale = settings.ledScale || 1.15;
-        const nextScale = Math.min(1.8, Math.round((currentScale + 0.05) * 100) / 100);
+        const currentScale = settings.ledScale || 1.0;
+        const nextScale = Math.min(1.5, Math.round((currentScale + 0.05) * 100) / 100);
         updateSettings({ ledScale: nextScale });
       } else if (e.key === '-' || e.key === '_') {
         e.preventDefault();
-        const currentScale = settings.ledScale || 1.15;
-        const nextScale = Math.max(0.75, Math.round((currentScale - 0.05) * 100) / 100);
+        const currentScale = settings.ledScale || 1.0;
+        const nextScale = Math.max(0.7, Math.round((currentScale - 0.05) * 100) / 100);
         updateSettings({ ledScale: nextScale });
       } else if (e.key === '0') {
         e.preventDefault();
-        updateSettings({ ledScale: 1.15 });
+        updateSettings({ ledScale: 1.0 });
       }
     };
 
@@ -314,7 +314,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="w-screen h-screen overflow-hidden relative select-none">
-      <DecorativeBackground animated={settings.animationsEnabled}>
+      <DecorativeBackground animated={settings.animationsEnabled} userScale={settings.ledScale || 1.0}>
         {/* Projector indicator & Quick Zoom Tool on Stage Screen */}
         {isProjectorMode && (
           <div className="absolute top-2 left-2 z-50 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl text-white shadow-xl border border-white/20 transition-opacity opacity-40 hover:opacity-100">
@@ -326,8 +326,8 @@ export const App: React.FC = () => {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => {
-                  const currentScale = settings.ledScale || 1.15;
-                  updateSettings({ ledScale: Math.max(0.75, Math.round((currentScale - 0.05) * 100) / 100) });
+                  const currentScale = settings.ledScale || 1.0;
+                  updateSettings({ ledScale: Math.max(0.7, Math.round((currentScale - 0.05) * 100) / 100) });
                 }}
                 title="Thu nhỏ cỡ chữ (Phím -)"
                 className="w-5 h-5 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded text-xs font-bold"
@@ -335,12 +335,12 @@ export const App: React.FC = () => {
                 -
               </button>
               <span className="text-[11px] font-mono px-1 font-bold">
-                {Math.round((settings.ledScale || 1.15) * 100)}%
+                {Math.round((settings.ledScale || 1.0) * 100)}%
               </span>
               <button
                 onClick={() => {
-                  const currentScale = settings.ledScale || 1.15;
-                  updateSettings({ ledScale: Math.min(1.8, Math.round((currentScale + 0.05) * 100) / 100) });
+                  const currentScale = settings.ledScale || 1.0;
+                  updateSettings({ ledScale: Math.min(1.5, Math.round((currentScale + 0.05) * 100) / 100) });
                 }}
                 title="Phóng to cỡ chữ (Phím +)"
                 className="w-5 h-5 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded text-xs font-bold"
@@ -348,7 +348,7 @@ export const App: React.FC = () => {
                 +
               </button>
               <button
-                onClick={() => updateSettings({ ledScale: 1.15 })}
+                onClick={() => updateSettings({ ledScale: 1.0 })}
                 title="Tự động cân đối chuẩn 16:9 (Phím 0)"
                 className="ml-1 px-1.5 py-0.5 bg-amber-400 hover:bg-amber-300 text-slate-900 rounded text-[10px] font-bold"
               >

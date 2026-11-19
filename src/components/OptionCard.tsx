@@ -24,28 +24,28 @@ export const OptionCard: React.FC<OptionCardProps> = React.memo(({
 }) => {
   const badgeStyle = OPTION_BADGE_COLORS[optionKey];
 
-  // Fluid typography based on option text length for maximum balance
+  // Fluid typography based on option text length for maximum balance in 1920x1080 stage
   const textLength = text.length;
   const optionFontSize =
     textLength > 65
-      ? 'text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-[2.2rem]'
+      ? 'text-xl lg:text-[1.65rem]'
       : textLength > 35
-      ? 'text-xl sm:text-2xl md:text-3xl lg:text-[2.45rem] xl:text-[2.75rem]'
-      : 'text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.15rem]';
+      ? 'text-2xl lg:text-[1.95rem]'
+      : 'text-3xl lg:text-[2.35rem]';
 
   return (
     <div
-      className={`relative flex items-center gap-4 sm:gap-6 md:gap-7 p-4 sm:p-5 md:p-6 lg:p-8 xl:p-9 rounded-3xl md:rounded-4xl transition-all duration-300 select-none ${
+      className={`relative flex items-center gap-5 p-5 lg:p-6 rounded-3xl transition-all duration-300 select-none ${
         isRevealed && isCorrect
-          ? 'bg-emerald-50 border-4 md:border-6 border-emerald-500 shadow-2xl shadow-emerald-300 scale-[1.02] z-10'
+          ? 'bg-emerald-50 border-4 border-emerald-500 shadow-2xl shadow-emerald-300 scale-[1.02] z-10'
           : isRevealed && !isCorrect
           ? 'bg-white/70 border-3 border-slate-200 opacity-40'
-          : 'bg-white border-4 md:border-6 border-white/95 shadow-xl hover:shadow-2xl'
+          : 'bg-white border-4 border-white/95 shadow-xl hover:shadow-2xl'
       }`}
     >
       {/* Option Key Badge (A, B, C, D) - Large for giant LED screen */}
       <div
-        className={`w-14 h-14 md:w-18 md:h-18 lg:w-22 lg:h-22 xl:w-24 xl:h-24 shrink-0 rounded-2xl md:rounded-3xl flex items-center justify-center font-black text-2xl md:text-4xl lg:text-5xl border-3 md:border-4 shadow-lg transition-transform ${badgeStyle.bg} ${badgeStyle.text} ${badgeStyle.border} ${
+        className={`w-16 h-16 lg:w-18 lg:h-18 shrink-0 rounded-2xl flex items-center justify-center font-black text-3xl lg:text-4xl border-3 md:border-4 shadow-lg transition-transform ${badgeStyle.bg} ${badgeStyle.text} ${badgeStyle.border} ${
           isRevealed && isCorrect ? 'scale-110 rotate-2' : ''
         }`}
       >

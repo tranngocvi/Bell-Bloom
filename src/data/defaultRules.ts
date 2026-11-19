@@ -17,5 +17,5 @@ export const DEFAULT_SETTINGS = {
   eventTitle: "BELL & BLOOM",
   eventSlogan: "Chuông vang tri thức - Hoa nở tri ân",
   isDemo: true,
-  ledScale: 1.15
+  ledScale: 1.0
 };

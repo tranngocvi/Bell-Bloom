@@ -33,7 +33,7 @@ export const RulesScreen: React.FC<RulesScreenProps> = React.memo(({
   ];
 
   return (
-    <div className="flex-1 w-full h-full flex flex-col justify-between p-3 md:p-4 lg:p-6 overflow-hidden relative z-20">
+    <div className="flex-1 w-full h-full flex flex-col justify-between p-8 lg:p-10 overflow-hidden relative z-20">
       {/* 1. Header Bar */}
       <div className="w-full flex items-center justify-between pb-3 border-b-2 border-white/60">
         {/* Left: Back Button & Logos */}
